@@ -9,8 +9,58 @@ namespace CalcLang
             InitializeComponent();
         }
 
+        // Обеспечивает подсветку синтаксиса, в частности ключевые слова
+        private void SyntaxHighlighting()
+        {
+            string keyWords = "int|float|PRINT";
+            Regex regex = new Regex(keyWords, RegexOptions.IgnoreCase);
+            MatchCollection matches = regex.Matches(CodeSection.Text);
+            int startPosition = CodeSection.SelectionStart;
+
+            foreach (Match match in matches)
+            {
+                CodeSection.Select(match.Index, match.Length);
+                CodeSection.SelectionColor = Color.FromArgb(49, 124, 222);
+                CodeSection.SelectionStart = startPosition;
+                CodeSection.SelectionLength = 0;
+                CodeSection.SelectionColor = Color.White;
+            }
+        }
+
+        // Обеспечивает подсветку комментариев
+        private void CommentsHighlighting()
+        {
+            for (int i = 0; i < CodeSection.Text.Length; i++)
+            {
+                int startPosition = CodeSection.SelectionStart;
+
+                if (CodeSection.Text[i] == '$')
+                {
+                    int lenght = 0;
+                    int start = i;
+                    while (i < CodeSection.Text.Length && CodeSection.Text[i] != '\n')
+                    {
+                        i++;
+                        lenght++;
+                    }
+                    CodeSection.Select(start, lenght);
+                    CodeSection.SelectionColor = Color.FromArgb(33, 155, 33);
+                }
+                CodeSection.SelectionStart = startPosition;
+                CodeSection.SelectionLength = 0;
+                CodeSection.SelectionColor = Color.White;
+            }
+        }
+
+        // Обработчик события при изменении текста для подсветки синтаксиса
+        private void CodeSection_TextChanged(object sender, EventArgs e)
+        {
+            SyntaxHighlighting();
+            CommentsHighlighting();
+        }
+
         // Обработчик события для кнопки "Open"
-        private void OpenBtn_Click(object sender, EventArgs e)
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog file = new OpenFileDialog();
             file.Filter = "cl files (*.cl)|*.cl";
@@ -26,7 +76,7 @@ namespace CalcLang
         }
 
         // Обработчик события для кнопки "Save"
-        private void SaveBtn_Click(object sender, EventArgs e)
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog file = new SaveFileDialog();
             file.Filter = "cl files (*.cl)|*.cl";
@@ -38,7 +88,7 @@ namespace CalcLang
         }
 
         // Обработчик события для кнопки "Run"
-        private void RunBtn_Click(object sender, EventArgs e)
+        private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OutputBox.Items.Clear();
             Starter starter = new Starter(CodeSection.Text);
@@ -84,56 +134,6 @@ namespace CalcLang
             {
                 OutputBox.Items.Add(output);
             }
-        }
-
-        // Обеспечивает подсветку синтаксиса, в частности ключевые слова
-        private void SyntaxHighlighting()
-        {
-            string keyWords = "int|float|PRINT";
-            Regex regex = new Regex(keyWords, RegexOptions.IgnoreCase);
-            MatchCollection matches = regex.Matches(CodeSection.Text);
-            int startPosition = CodeSection.SelectionStart;
-
-            foreach (Match match in matches)
-            {
-                CodeSection.Select(match.Index, match.Length);
-                CodeSection.SelectionColor = Color.Tan;
-                CodeSection.SelectionStart = startPosition;
-                CodeSection.SelectionLength = 0;
-                CodeSection.SelectionColor = Color.White;
-            }
-        }
-
-        // Обеспечивает подсветку комментариев
-        private void CommentsHighlighting()
-        {
-            for (int i = 0; i < CodeSection.Text.Length; i++)
-            {
-                int startPosition = CodeSection.SelectionStart;
-
-                if (CodeSection.Text[i] == '$')
-                {
-                    int lenght = 0;
-                    int start = i;
-                    while (i < CodeSection.Text.Length && CodeSection.Text[i] != '\n')
-                    {
-                        i++;
-                        lenght++;
-                    }
-                    CodeSection.Select(start, lenght);
-                    CodeSection.SelectionColor = Color.DarkSeaGreen;
-                }
-                CodeSection.SelectionStart = startPosition;
-                CodeSection.SelectionLength = 0;
-                CodeSection.SelectionColor = Color.White;
-            }
-        }
-
-        // Обработчик события при изменении текста для подсветки синтаксиса
-        private void CodeSection_TextChanged(object sender, EventArgs e)
-        {
-            SyntaxHighlighting();
-            CommentsHighlighting();
         }
     }
 }

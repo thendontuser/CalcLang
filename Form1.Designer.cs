@@ -32,15 +32,18 @@
             CodeSection = new RichTextBox();
             label1 = new Label();
             OutputBox = new ListBox();
-            RunBtn = new Button();
-            OpenBtn = new Button();
-            SaveBtn = new Button();
+            menuStrip1 = new MenuStrip();
+            fileToolStripMenuItem = new ToolStripMenuItem();
+            openToolStripMenuItem = new ToolStripMenuItem();
+            saveToolStripMenuItem = new ToolStripMenuItem();
+            runToolStripMenuItem = new ToolStripMenuItem();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // CodeSection
             // 
             CodeSection.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            CodeSection.BackColor = Color.FromArgb(0, 0, 64);
+            CodeSection.BackColor = Color.FromArgb(32, 32, 32);
             CodeSection.BorderStyle = BorderStyle.FixedSingle;
             CodeSection.Font = new Font("Microsoft YaHei", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
             CodeSection.ForeColor = SystemColors.ControlLightLight;
@@ -65,7 +68,7 @@
             // OutputBox
             // 
             OutputBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            OutputBox.BackColor = Color.FromArgb(0, 0, 64);
+            OutputBox.BackColor = Color.FromArgb(32, 32, 32);
             OutputBox.Font = new Font("Microsoft YaHei", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
             OutputBox.ForeColor = SystemColors.Window;
             OutputBox.FormattingEnabled = true;
@@ -76,65 +79,67 @@
             OutputBox.Size = new Size(1317, 112);
             OutputBox.TabIndex = 2;
             // 
-            // RunBtn
+            // menuStrip1
             // 
-            RunBtn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            RunBtn.BackColor = SystemColors.ActiveBorder;
-            RunBtn.ForeColor = SystemColors.ActiveCaptionText;
-            RunBtn.Location = new Point(1206, 14);
-            RunBtn.Margin = new Padding(4, 3, 4, 3);
-            RunBtn.Name = "RunBtn";
-            RunBtn.Size = new Size(129, 33);
-            RunBtn.TabIndex = 3;
-            RunBtn.Text = "Run";
-            RunBtn.UseVisualStyleBackColor = false;
-            RunBtn.Click += RunBtn_Click;
+            menuStrip1.BackColor = Color.FromArgb(32, 32, 32);
+            menuStrip1.ImageScalingSize = new Size(20, 20);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(1351, 31);
+            menuStrip1.TabIndex = 6;
+            menuStrip1.Text = "menuStrip1";
             // 
-            // OpenBtn
+            // fileToolStripMenuItem
             // 
-            OpenBtn.BackColor = SystemColors.ActiveBorder;
-            OpenBtn.ForeColor = SystemColors.ActiveCaptionText;
-            OpenBtn.Location = new Point(16, 14);
-            OpenBtn.Margin = new Padding(4, 3, 4, 3);
-            OpenBtn.Name = "OpenBtn";
-            OpenBtn.Size = new Size(129, 33);
-            OpenBtn.TabIndex = 4;
-            OpenBtn.Text = "Open";
-            OpenBtn.UseVisualStyleBackColor = false;
-            OpenBtn.Click += OpenBtn_Click;
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, saveToolStripMenuItem, runToolStripMenuItem });
+            fileToolStripMenuItem.Font = new Font("Microsoft YaHei", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            fileToolStripMenuItem.ForeColor = Color.White;
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new Size(53, 27);
+            fileToolStripMenuItem.Text = "File";
             // 
-            // SaveBtn
+            // openToolStripMenuItem
             // 
-            SaveBtn.BackColor = SystemColors.ActiveBorder;
-            SaveBtn.ForeColor = SystemColors.ActiveCaptionText;
-            SaveBtn.Location = new Point(154, 14);
-            SaveBtn.Margin = new Padding(4, 3, 4, 3);
-            SaveBtn.Name = "SaveBtn";
-            SaveBtn.Size = new Size(129, 33);
-            SaveBtn.TabIndex = 5;
-            SaveBtn.Text = "Save";
-            SaveBtn.UseVisualStyleBackColor = false;
-            SaveBtn.Click += SaveBtn_Click;
+            openToolStripMenuItem.Name = "openToolStripMenuItem";
+            openToolStripMenuItem.Size = new Size(224, 28);
+            openToolStripMenuItem.Text = "Open";
+            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
+            // 
+            // saveToolStripMenuItem
+            // 
+            saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            saveToolStripMenuItem.Size = new Size(224, 28);
+            saveToolStripMenuItem.Text = "Save";
+            saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
+            // 
+            // runToolStripMenuItem
+            // 
+            runToolStripMenuItem.Name = "runToolStripMenuItem";
+            runToolStripMenuItem.Size = new Size(224, 28);
+            runToolStripMenuItem.Text = "Run";
+            runToolStripMenuItem.Click += runToolStripMenuItem_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
-            BackColor = Color.FromArgb(0, 0, 64);
+            BackColor = Color.FromArgb(32, 32, 32);
             ClientSize = new Size(1351, 731);
-            Controls.Add(SaveBtn);
-            Controls.Add(OpenBtn);
-            Controls.Add(RunBtn);
             Controls.Add(OutputBox);
             Controls.Add(label1);
             Controls.Add(CodeSection);
+            Controls.Add(menuStrip1);
             Font = new Font("Yu Gothic", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 204);
             ForeColor = SystemColors.ButtonHighlight;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MainMenuStrip = menuStrip1;
             Margin = new Padding(4, 3, 4, 3);
             Name = "Form1";
             Text = "CalcLang";
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -144,8 +149,10 @@
         private RichTextBox CodeSection;
         private Label label1;
         private ListBox OutputBox;
-        private Button RunBtn;
-        private Button OpenBtn;
-        private Button SaveBtn;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem openToolStripMenuItem;
+        private ToolStripMenuItem saveToolStripMenuItem;
+        private ToolStripMenuItem runToolStripMenuItem;
     }
 }
