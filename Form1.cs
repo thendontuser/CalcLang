@@ -4,9 +4,13 @@ namespace CalcLang
 {
     public partial class Form1 : Form
     {
+        Color CurrentTextColor, SyntaxColor;
+
         public Form1()
         {
             InitializeComponent();
+            CurrentTextColor = Color.White;
+            SyntaxColor = Color.FromArgb(49, 124, 222);
         }
 
         // Обеспечивает подсветку синтаксиса, в частности ключевые слова
@@ -20,10 +24,10 @@ namespace CalcLang
             foreach (Match match in matches)
             {
                 CodeSection.Select(match.Index, match.Length);
-                CodeSection.SelectionColor = Color.FromArgb(49, 124, 222);
+                CodeSection.SelectionColor = SyntaxColor;
                 CodeSection.SelectionStart = startPosition;
                 CodeSection.SelectionLength = 0;
-                CodeSection.SelectionColor = Color.White;
+                CodeSection.SelectionColor = CurrentTextColor;
             }
         }
 
@@ -48,7 +52,7 @@ namespace CalcLang
                 }
                 CodeSection.SelectionStart = startPosition;
                 CodeSection.SelectionLength = 0;
-                CodeSection.SelectionColor = Color.White;
+                CodeSection.SelectionColor = CurrentTextColor;
             }
         }
 
@@ -134,6 +138,36 @@ namespace CalcLang
             {
                 OutputBox.Items.Add(output);
             }
+        }
+
+        private void lightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.BackColor = Color.White;
+            CodeSection.BackColor = Color.White;
+            CodeSection.ForeColor = Color.Black;
+            CurrentTextColor = Color.Black;
+            OutputBox.BackColor = Color.White;
+            menuStrip1.BackColor = Color.White;
+            fileToolStripMenuItem.ForeColor = Color.Black;
+            themeToolStripMenuItem.ForeColor = Color.Black;
+            OutputBox.ForeColor = Color.Black;
+            label1.ForeColor = Color.Black;
+            SyntaxColor = Color.Blue;
+        }
+
+        private void darkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.BackColor = Color.FromArgb(32, 32, 32);
+            CodeSection.BackColor = Color.FromArgb(32, 32, 32);
+            CodeSection.ForeColor = Color.White;
+            CurrentTextColor = Color.White;
+            OutputBox.BackColor = Color.FromArgb(32, 32, 32);
+            menuStrip1.BackColor = Color.FromArgb(32, 32, 32);
+            fileToolStripMenuItem.ForeColor = Color.White;
+            themeToolStripMenuItem.ForeColor = Color.White;
+            OutputBox.ForeColor = Color.White;
+            label1.ForeColor = Color.White;
+            SyntaxColor = Color.FromArgb(49, 124, 222);
         }
     }
 }

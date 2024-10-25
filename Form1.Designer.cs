@@ -37,20 +37,23 @@
             openToolStripMenuItem = new ToolStripMenuItem();
             saveToolStripMenuItem = new ToolStripMenuItem();
             runToolStripMenuItem = new ToolStripMenuItem();
+            themeToolStripMenuItem = new ToolStripMenuItem();
+            lightToolStripMenuItem = new ToolStripMenuItem();
+            darkToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // CodeSection
             // 
-            CodeSection.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            CodeSection.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             CodeSection.BackColor = Color.FromArgb(32, 32, 32);
             CodeSection.BorderStyle = BorderStyle.FixedSingle;
             CodeSection.Font = new Font("Microsoft YaHei", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
             CodeSection.ForeColor = SystemColors.ControlLightLight;
-            CodeSection.Location = new Point(16, 54);
+            CodeSection.Location = new Point(0, 31);
             CodeSection.Margin = new Padding(4, 3, 4, 3);
             CodeSection.Name = "CodeSection";
-            CodeSection.Size = new Size(1317, 475);
+            CodeSection.Size = new Size(1348, 555);
             CodeSection.TabIndex = 0;
             CodeSection.Text = "";
             CodeSection.TextChanged += CodeSection_TextChanged;
@@ -58,7 +61,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(16, 535);
+            label1.Location = new Point(0, 589);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(65, 23);
@@ -69,24 +72,25 @@
             // 
             OutputBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             OutputBox.BackColor = Color.FromArgb(32, 32, 32);
+            OutputBox.BorderStyle = BorderStyle.FixedSingle;
             OutputBox.Font = new Font("Microsoft YaHei", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
             OutputBox.ForeColor = SystemColors.Window;
             OutputBox.FormattingEnabled = true;
             OutputBox.ItemHeight = 27;
-            OutputBox.Location = new Point(16, 561);
+            OutputBox.Location = new Point(0, 615);
             OutputBox.Margin = new Padding(4, 3, 4, 3);
             OutputBox.Name = "OutputBox";
-            OutputBox.Size = new Size(1317, 112);
+            OutputBox.Size = new Size(1348, 110);
             OutputBox.TabIndex = 2;
             // 
             // menuStrip1
             // 
             menuStrip1.BackColor = Color.FromArgb(32, 32, 32);
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, themeToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1351, 31);
+            menuStrip1.Size = new Size(1348, 31);
             menuStrip1.TabIndex = 6;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -102,23 +106,46 @@
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(224, 28);
+            openToolStripMenuItem.Size = new Size(139, 28);
             openToolStripMenuItem.Text = "Open";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new Size(224, 28);
+            saveToolStripMenuItem.Size = new Size(139, 28);
             saveToolStripMenuItem.Text = "Save";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // runToolStripMenuItem
             // 
             runToolStripMenuItem.Name = "runToolStripMenuItem";
-            runToolStripMenuItem.Size = new Size(224, 28);
+            runToolStripMenuItem.Size = new Size(139, 28);
             runToolStripMenuItem.Text = "Run";
             runToolStripMenuItem.Click += runToolStripMenuItem_Click;
+            // 
+            // themeToolStripMenuItem
+            // 
+            themeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { lightToolStripMenuItem, darkToolStripMenuItem });
+            themeToolStripMenuItem.Font = new Font("Microsoft YaHei", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            themeToolStripMenuItem.ForeColor = Color.White;
+            themeToolStripMenuItem.Name = "themeToolStripMenuItem";
+            themeToolStripMenuItem.Size = new Size(80, 27);
+            themeToolStripMenuItem.Text = "Theme";
+            // 
+            // lightToolStripMenuItem
+            // 
+            lightToolStripMenuItem.Name = "lightToolStripMenuItem";
+            lightToolStripMenuItem.Size = new Size(135, 28);
+            lightToolStripMenuItem.Text = "Light";
+            lightToolStripMenuItem.Click += lightToolStripMenuItem_Click;
+            // 
+            // darkToolStripMenuItem
+            // 
+            darkToolStripMenuItem.Name = "darkToolStripMenuItem";
+            darkToolStripMenuItem.Size = new Size(135, 28);
+            darkToolStripMenuItem.Text = "Dark";
+            darkToolStripMenuItem.Click += darkToolStripMenuItem_Click;
             // 
             // Form1
             // 
@@ -126,7 +153,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             BackColor = Color.FromArgb(32, 32, 32);
-            ClientSize = new Size(1351, 731);
+            ClientSize = new Size(1348, 731);
             Controls.Add(OutputBox);
             Controls.Add(label1);
             Controls.Add(CodeSection);
@@ -154,5 +181,8 @@
         private ToolStripMenuItem openToolStripMenuItem;
         private ToolStripMenuItem saveToolStripMenuItem;
         private ToolStripMenuItem runToolStripMenuItem;
+        private ToolStripMenuItem themeToolStripMenuItem;
+        private ToolStripMenuItem lightToolStripMenuItem;
+        private ToolStripMenuItem darkToolStripMenuItem;
     }
 }
