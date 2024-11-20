@@ -11,6 +11,68 @@ namespace CalcLang
             InitializeComponent();
             CurrentTextColor = Color.White;
             SyntaxColor = Color.FromArgb(49, 124, 222);
+            KeyPreview = true;
+        }
+
+        // Сохраняет текстовый файл
+        private void SaveFile()
+        {
+            SaveFileDialog file = new SaveFileDialog();
+            file.Filter = "cl files (*.cl)|*.cl";
+
+            if (file.ShowDialog() == DialogResult.OK)
+            {
+                File.WriteAllText(file.FileName, CodeSection.Text);
+            }
+        }
+
+        // Запускает программу
+        private void RunProgram()
+        {
+            OutputBox.Items.Clear();
+            Starter starter = new Starter(CodeSection.Text);
+
+            List<SToken>? lexer = starter.StartLexer();
+            if (lexer == null)
+            {
+                OutputBox.Items.Add(starter.LexerError);
+                return;
+            }
+
+            List<DataObject>? parser = starter.StartParser(lexer);
+            if (parser == null)
+            {
+                foreach (string error in starter.ParserErrors)
+                {
+                    OutputBox.Items.Add(error);
+                }
+                return;
+            }
+
+            List<DataObject>? semantic = starter.StartSemantic(parser);
+            if (semantic == null)
+            {
+                foreach (string error in starter.SemanticErrors)
+                {
+                    OutputBox.Items.Add(error);
+                }
+                return;
+            }
+
+            List<string>? outputs = starter.StartCodeGenerator(parser);
+            if (outputs == null)
+            {
+                foreach (string error in starter.GenerateErrors)
+                {
+                    OutputBox.Items.Add(error);
+                }
+                return;
+            }
+
+            foreach (string output in outputs)
+            {
+                OutputBox.Items.Add(output);
+            }
         }
 
         // Обеспечивает подсветку синтаксиса, в частности ключевые слова
@@ -82,64 +144,16 @@ namespace CalcLang
         // Обработчик события для кнопки "Save"
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog file = new SaveFileDialog();
-            file.Filter = "cl files (*.cl)|*.cl";
-
-            if (file.ShowDialog() == DialogResult.OK)
-            {
-                File.WriteAllText(file.FileName, CodeSection.Text);
-            }
+            SaveFile();
         }
 
         // Обработчик события для кнопки "Run"
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OutputBox.Items.Clear();
-            Starter starter = new Starter(CodeSection.Text);
-
-            List<SToken>? lexer = starter.StartLexer();
-            if (lexer == null)
-            {
-                OutputBox.Items.Add(starter.LexerError);
-                return;
-            }
-
-            List<DataObject>? parser = starter.StartParser(lexer);
-            if (parser == null)
-            {
-                foreach (string error in starter.ParserErrors)
-                {
-                    OutputBox.Items.Add(error);
-                }
-                return;
-            }
-
-            List<DataObject>? semantic = starter.StartSemantic(parser);
-            if (semantic == null)
-            {
-                foreach (string error in starter.SemanticErrors)
-                {
-                    OutputBox.Items.Add(error);
-                }
-                return;
-            }
-
-            List<string>? outputs = starter.StartCodeGenerator(parser);
-            if (outputs == null)
-            {
-                foreach (string error in starter.GenerateErrors)
-                {
-                    OutputBox.Items.Add(error);
-                }
-                return;
-            }
-
-            foreach (string output in outputs)
-            {
-                OutputBox.Items.Add(output);
-            }
+            RunProgram();
         }
 
+        // Изменение редактора на белую тему
         private void lightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.BackColor = Color.White;
@@ -155,6 +169,7 @@ namespace CalcLang
             SyntaxColor = Color.Blue;
         }
 
+        // Изменение редактора на тёмную тему
         private void darkToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.BackColor = Color.FromArgb(32, 32, 32);
@@ -168,6 +183,21 @@ namespace CalcLang
             OutputBox.ForeColor = Color.White;
             label1.ForeColor = Color.White;
             SyntaxColor = Color.FromArgb(49, 124, 222);
+        }
+
+        // Обработка горячих клавиш
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.S)
+            {
+                SaveFile();
+                e.SuppressKeyPress = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.F5)
+            {
+                RunProgram();
+                e.SuppressKeyPress = true;
+            }
         }
     }
 }

@@ -165,6 +165,7 @@
             Margin = new Padding(4, 3, 4, 3);
             Name = "Form1";
             Text = "CalcLang";
+            KeyDown += Form1_KeyDown;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);
