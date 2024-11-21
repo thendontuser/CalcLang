@@ -75,6 +75,17 @@ namespace CalcLang
             }
         }
 
+        // —читает количество строк исходного кода
+        private void LineCounting()
+        {
+            LineCounter.Text = string.Empty;
+
+            for (int i = 0; i < CodeSection.Lines.Length; i++)
+            {
+                LineCounter.Text += i + 1 + "\n";
+            }
+        }
+
         // ќбеспечивает подсветку синтаксиса, в частности ключевые слова
         private void SyntaxHighlighting()
         {
@@ -123,6 +134,7 @@ namespace CalcLang
         {
             SyntaxHighlighting();
             CommentsHighlighting();
+            LineCounting();
         }
 
         // ќбработчик событи€ дл€ кнопки "Open"
@@ -167,6 +179,8 @@ namespace CalcLang
             OutputBox.ForeColor = Color.Black;
             label1.ForeColor = Color.Black;
             SyntaxColor = Color.Blue;
+            LineCounter.BackColor = Color.White;
+            LineCounter.ForeColor = Color.Black;
         }
 
         // »зменение редактора на тЄмную тему
@@ -183,6 +197,8 @@ namespace CalcLang
             OutputBox.ForeColor = Color.White;
             label1.ForeColor = Color.White;
             SyntaxColor = Color.FromArgb(49, 124, 222);
+            LineCounter.BackColor = Color.FromArgb(32, 32, 32);
+            LineCounter.ForeColor = Color.White;
         }
 
         // ќбработка гор€чих клавиш

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             CodeSection = new RichTextBox();
             label1 = new Label();
@@ -40,6 +41,8 @@
             themeToolStripMenuItem = new ToolStripMenuItem();
             lightToolStripMenuItem = new ToolStripMenuItem();
             darkToolStripMenuItem = new ToolStripMenuItem();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            LineCounter = new RichTextBox();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -50,10 +53,10 @@
             CodeSection.BorderStyle = BorderStyle.FixedSingle;
             CodeSection.Font = new Font("Microsoft YaHei", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
             CodeSection.ForeColor = SystemColors.ControlLightLight;
-            CodeSection.Location = new Point(0, 31);
+            CodeSection.Location = new Point(111, 31);
             CodeSection.Margin = new Padding(4, 3, 4, 3);
             CodeSection.Name = "CodeSection";
-            CodeSection.Size = new Size(1348, 555);
+            CodeSection.Size = new Size(1237, 555);
             CodeSection.TabIndex = 0;
             CodeSection.Text = "";
             CodeSection.TextChanged += CodeSection_TextChanged;
@@ -147,6 +150,24 @@
             darkToolStripMenuItem.Text = "Dark";
             darkToolStripMenuItem.Click += darkToolStripMenuItem_Click;
             // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.ImageScalingSize = new Size(20, 20);
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(61, 4);
+            // 
+            // LineCounter
+            // 
+            LineCounter.BackColor = Color.FromArgb(32, 32, 32);
+            LineCounter.Font = new Font("Microsoft YaHei", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            LineCounter.ForeColor = SystemColors.ControlLightLight;
+            LineCounter.Location = new Point(7, 34);
+            LineCounter.Name = "LineCounter";
+            LineCounter.ReadOnly = true;
+            LineCounter.Size = new Size(97, 552);
+            LineCounter.TabIndex = 8;
+            LineCounter.Text = "";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
@@ -154,6 +175,7 @@
             AutoSize = true;
             BackColor = Color.FromArgb(32, 32, 32);
             ClientSize = new Size(1348, 731);
+            Controls.Add(LineCounter);
             Controls.Add(OutputBox);
             Controls.Add(label1);
             Controls.Add(CodeSection);
@@ -185,5 +207,7 @@
         private ToolStripMenuItem themeToolStripMenuItem;
         private ToolStripMenuItem lightToolStripMenuItem;
         private ToolStripMenuItem darkToolStripMenuItem;
+        private ContextMenuStrip contextMenuStrip1;
+        private RichTextBox LineCounter;
     }
 }
