@@ -87,7 +87,7 @@ namespace CalcLang
             Stack<string> operands;
             Stack<TokenType?> sign;
 
-            for (int i = 0; Expressions[i].Type != TokenType.PRINT; i++)
+            for (int i = 0; Expressions[i].Type != TokenType.PRINT && Expressions[i].Type != TokenType.TITLE; i++)
             {
                 operands = new Stack<string>();
                 sign = new Stack<TokenType?>();
@@ -214,11 +214,16 @@ namespace CalcLang
             Stack<TokenType?> sign;
             int i = -1;
 
-            while (Expressions[++i].Type != TokenType.PRINT)
+            while (Expressions[++i].Type != TokenType.PRINT && Expressions[i].Type != TokenType.TITLE)
                 ;
 
             for ( ; i < Expressions.Count; i++)
             {
+                if (Expressions[i].Type == TokenType.TITLE)
+                {
+                    output.Add(Expressions[i].Value[0].Value);
+                    continue;
+                }
                 operands = new Stack<string>();
                 sign = new Stack<TokenType?>();
                 int ind = 0;

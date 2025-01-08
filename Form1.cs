@@ -89,7 +89,7 @@ namespace CalcLang
         // ќбеспечивает подсветку синтаксиса, в частности ключевые слова
         private void SyntaxHighlighting()
         {
-            string keyWords = "int|float|PRINT";
+            string keyWords = "int|float|PRINT|TITLE";
             Regex regex = new Regex(keyWords, RegexOptions.IgnoreCase);
             MatchCollection matches = regex.Matches(CodeSection.Text);
             int startPosition = CodeSection.SelectionStart;
@@ -181,6 +181,7 @@ namespace CalcLang
             SyntaxColor = Color.Blue;
             LineCounter.BackColor = Color.White;
             LineCounter.ForeColor = Color.Black;
+            SyntaxHighlighting();
         }
 
         // »зменение редактора на тЄмную тему
@@ -199,6 +200,7 @@ namespace CalcLang
             SyntaxColor = Color.FromArgb(49, 124, 222);
             LineCounter.BackColor = Color.FromArgb(32, 32, 32);
             LineCounter.ForeColor = Color.White;
+            SyntaxHighlighting();
         }
 
         // ќбработка гор€чих клавиш

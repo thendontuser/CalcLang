@@ -11,7 +11,7 @@ namespace CalcLang
     /// </summary>
     internal class Semantic
     {
-        // Данные о переменных и командах PRINT
+        // Данные о переменных и командах PRINT и TITLE
         private List<DataObject> DataObjects;
 
         /// <summary>
@@ -20,9 +20,9 @@ namespace CalcLang
         public List<string> Errors { get; private set; }
 
         /// <summary>
-        /// Инициализирует данные о переменных и командах PRINT
+        /// Инициализирует данные о переменных и командах
         /// </summary>
-        /// <param name="dataObjects"> Данные о переменных и командах PRINT </param>
+        /// <param name="dataObjects"> Данные о переменных и командах </param>
         public Semantic(List<DataObject> dataObjects)
         {
             DataObjects = dataObjects;

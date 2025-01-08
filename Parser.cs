@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CalcLang
 {
     /// <summary>
-    /// Структура для хранения объекта переменной и команды PRINT для последующей работы семантического анализатора
+    /// Структура для хранения объекта переменной, команды PRINT и TITLE для последующей работы семантического анализатора
     /// </summary>
     public struct DataObject
     {
@@ -22,7 +22,7 @@ namespace CalcLang
         public string Name;
 
         /// <summary>
-        /// Значение переменной или в случае, если объект - команда PRINT, значение, которое нужно посчитать и напечатать
+        /// Значение переменной или в случае, если объект - команда PRINT или TITLE, значение или строка, которое нужно напечатать
         /// </summary>
         public List<SToken>? Value;
 
@@ -146,7 +146,7 @@ namespace CalcLang
                 Next();
                 ListOfPrints();
             }
-            else if (CurrentType == TokenType.PRINT)
+            else if (CurrentType == TokenType.PRINT || CurrentType == TokenType.TITLE)
             {
                 ListOfPrints();
             }
@@ -258,7 +258,7 @@ namespace CalcLang
             {
                 ListOfInits();
             }
-            else if (CurrentType == TokenType.PRINT)
+            else if (CurrentType == TokenType.PRINT || CurrentType == TokenType.TITLE)
             {
                 Index--;
                 return;
@@ -280,31 +280,66 @@ namespace CalcLang
         // Метод в соответствии с правилом <вывод> в грамматике языка
         private void Print()
         {
-            if (CurrentType != TokenType.PRINT)
+            if (CurrentType == TokenType.PRINT)
+            {
+                Object.Type = CurrentType;
+                Object.Name = string.Empty;
+                Next();
+                Expr = Expression();
+                if (Expr == null)
+                {
+                    Errors.Add($"The ; was expected, but {CurrentValue} was encountered");
+                    return;
+                }
+                Object.Value = Expr;
+                DataObjects.Add(Object);
+                if (CurrentType != TokenType.SEMICOLON)
+                {
+                    Errors.Add($"The ; was expected, but {CurrentValue} was encountered");
+                }
+            }
+            else if (CurrentType == TokenType.TITLE)
+            {
+                Object.Type = CurrentType;
+                Object.Name = string.Empty;
+                Next();
+                if (CurrentType != TokenType.QMARK)
+                {
+                    Errors.Add($"The \" was expected, but {CurrentValue} was encountered");
+                    return;
+                }
+                Next();
+
+                List<SToken> title = new List<SToken>();
+                SToken titleString = new SToken();
+                titleString.Type = TokenType.LIT;
+                titleString.Value = CurrentValue;
+                title.Add(titleString);
+                Object.Value = title;
+
+                DataObjects.Add(Object);
+                Next();
+                if (CurrentType != TokenType.QMARK)
+                {
+                    Errors.Add($"The \" was expected, but {CurrentValue} was encountered");
+                    return;
+                }
+                Next();
+                if (CurrentType != TokenType.SEMICOLON)
+                {
+                    Errors.Add($"The ; was expected, but {CurrentValue} was encountered");
+                }
+            }
+            else
             {
                 Errors.Add($"The PRINT command was expected, but {CurrentValue} was encountered");
-            }
-            Object.Type = CurrentType;
-            Object.Name = string.Empty;
-            Next();
-            Expr = Expression();
-            if (Expr == null)
-            {
-                Errors.Add($"The ; was expected, but {CurrentValue} was encountered");
-                return;
-            }
-            Object.Value = Expr;
-            DataObjects.Add(Object);
-            if (CurrentType != TokenType.SEMICOLON)
-            {
-                Errors.Add($"The ; was expected, but {CurrentValue} was encountered");
             }
         }
 
         // Метод в соответствии с правилом <C> в грамматике языка
         private void C()
         {
-            if (CurrentType == TokenType.PRINT)
+            if (CurrentType == TokenType.PRINT || CurrentType == TokenType.TITLE)
             {
                 ListOfPrints();
             }
@@ -323,12 +358,12 @@ namespace CalcLang
         {
             List<SToken> result = new List<SToken>();
 
-            while (CurrentType != TokenType.SEMICOLON && CurrentType != TokenType.EOF && CurrentType != TokenType.PRINT)
+            while (CurrentType != TokenType.SEMICOLON && CurrentType != TokenType.EOF && CurrentType != TokenType.PRINT && CurrentType != TokenType.TITLE)
             {
                 result.Add(Tokens[Index]);
                 Next();
             }
-            if (CurrentType == TokenType.EOF || CurrentType == TokenType.PRINT)
+            if (CurrentType == TokenType.EOF || CurrentType == TokenType.PRINT || CurrentType == TokenType.TITLE)
             {
                 return null;
             }

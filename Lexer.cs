@@ -40,7 +40,8 @@ namespace CalcLang
         {
             { TokenType.INT, "int" },
             { TokenType.FLOAT, "float" },
-            { TokenType.PRINT, "print" }
+            { TokenType.PRINT, "print" },
+            { TokenType.TITLE, "title" }
         };
 
         // Словарь служебных символов языка
@@ -48,6 +49,7 @@ namespace CalcLang
         {
             { TokenType.SEMICOLON, ';' },
             { TokenType.DOT, '.' },
+            { TokenType.QMARK, '"' },
             { TokenType.EQUAL, '=' },
             { TokenType.PLUS, '+' },
             { TokenType.MINUS, '-' },
@@ -182,6 +184,18 @@ namespace CalcLang
                         }
                         continue;
                     }
+                    else if (Source[index] == '"')
+                    {
+                        AddToken(tokens, TokenType.QMARK, Source[index].ToString());
+                        index++;
+                        while (Source[index] !=  '"' && Source[index] != '\n' && Source[index] != ';')
+                        {
+                            buff += Source[index];
+                            index++;
+                        }
+                        AddToken(tokens, TokenType.LIT, buff);
+                    }
+
                     if ((type = GetTypeOfSymbols(Source[index])) != null)
                     {
                         AddToken(tokens, type, Source[index].ToString());
