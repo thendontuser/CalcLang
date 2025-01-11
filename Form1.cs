@@ -4,25 +4,51 @@ namespace CalcLang
 {
     public partial class Form1 : Form
     {
-        Color CurrentTextColor, SyntaxColor;
+        private Color CurrentTextColor, SyntaxColor;
+        private string CurrentFileName;
+        private bool FileIsChanged;
+        private const string BEGIN_FILE_NAME = "Безымянный";
 
         public Form1()
         {
             InitializeComponent();
             CurrentTextColor = Color.White;
             SyntaxColor = Color.FromArgb(49, 124, 222);
+            CurrentFileName = BEGIN_FILE_NAME;
+            FileIsChanged = false;
             KeyPreview = true;
+            SetTitle();
+        }
+
+        // Устанавливает заголовок окна
+        private void SetTitle()
+        {
+            Text = FileIsChanged ? "CalcLang - " + CurrentFileName + " (Изменен)" : "CalcLang - " + CurrentFileName;
         }
 
         // Сохраняет текстовый файл
         private void SaveFile()
         {
+            if (CurrentFileName != BEGIN_FILE_NAME)
+            {
+                if (FileIsChanged)
+                {
+                    File.WriteAllText(CurrentFileName, CodeSection.Text);
+                    FileIsChanged = false;
+                    SetTitle();
+                    return;
+                }
+                return;
+            }
             SaveFileDialog file = new SaveFileDialog();
             file.Filter = "cl files (*.cl)|*.cl";
 
             if (file.ShowDialog() == DialogResult.OK)
             {
                 File.WriteAllText(file.FileName, CodeSection.Text);
+                FileIsChanged = false;
+                CurrentFileName = file.FileName;
+                SetTitle();
             }
         }
 
@@ -135,6 +161,8 @@ namespace CalcLang
             SyntaxHighlighting();
             CommentsHighlighting();
             LineCounting();
+            FileIsChanged = true;
+            SetTitle();
         }
 
         // Обработчик события для кнопки "Open"
@@ -149,6 +177,9 @@ namespace CalcLang
                 {
                     CodeSection.Text = sr.ReadToEnd();
                     sr.Close();
+                    CurrentFileName = file.FileName;
+                    FileIsChanged = false;
+                    SetTitle();
                 }
             }
         }
@@ -215,6 +246,18 @@ namespace CalcLang
             {
                 RunProgram();
                 e.SuppressKeyPress = true;
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (FileIsChanged)
+            {
+                DialogResult dialog = MessageBox.Show("Вы хотите сохранить изменения?", "Save?", MessageBoxButtons.YesNo);
+                if (dialog == DialogResult.Yes)
+                {
+                    SaveFile();
+                }
             }
         }
     }
